@@ -52,18 +52,17 @@
   }
 
   /* JSONP callback function. Updates quote and author variables and 
-   * calls displayQuote function 
+   * calls displayQuote function.
    */
   var getInitialQuote = global.getInitialQuote = function getInitialQuote(response) {
     console.log(response);
 
     data = response;
-    /* save the quote and author from response, credit Tim Down @
-    http://stackoverflow.com/questions/5002111/javascript-how-to-strip-html-tags-from-string
-    */
+    //save the quote and author from response
     quote = response[0].content;
     author = response[0].title;
-    // strip HTML tags from quote
+    /* strip HTML tags from quote, credit Tim Down @
+    http://stackoverflow.com/questions/5002111/javascript-how-to-strip-html-tags-from-string */
     var parsedQuote = document.createElement('div');
     parsedQuote.innerHTML = quote;
     quote = parsedQuote.textContent || parsedQuote.innerText || '';
