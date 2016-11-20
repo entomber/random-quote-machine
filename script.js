@@ -1,7 +1,11 @@
 (function(global) {
+  'use strict';
 
-  var quoteAPI = 'http://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&jsonp=getQuote&lang=en';
+  const numQuotes = 20; // saves this # of quotes from quotes API
+  var quoteAPI = `http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=${numQuotes}&_jsonp=getInitialQuote`;
   var twitterAPI = 'https://twitter.com/intent/tweet?text=';
+  var data = null;
+  var quoteIndex = 0;
   var quote = '';
   var author = '';
   var elGetQuoteButton;
@@ -10,9 +14,7 @@
   var elAuthor;
   var elTwitterShareButton;
 
-  document.addEventListener('DOMContentLoaded', init, false);
-
-  function init() {
+  document.addEventListener('DOMContentLoaded', function init() {
     elGetQuoteButton = document.getElementById('get-quote-button');
     elQuote = document.getElementById('quote');
     elAuthor = document.getElementById('author');
@@ -22,15 +24,26 @@
 
     elGetQuoteButton.addEventListener('click', handleGetQuote, false);
     elTwitterShareButton.addEventListener('click', handleTwitterShare, false);
-  }
+  }, false);
 
+  /* Call quote API to get a random quote if there are no quotes.
+   * Otherwise, get the next stored quote.
+   */
   function handleGetQuote() {
-    // call quote API to get a random quote
-    var script = document.createElement('script');
-    script.src = `${quoteAPI}&callback=getQuote`;
-    document.head.appendChild(script);
-    document.head.removeChild(script); // remove so we don't keep creating script elements
-    elGetQuoteButton.blur(); // removes focus on button after click
+    // call quote API to get a random quote for first time or if all quotes were displayed
+    if (quoteIndex === 0 || quoteIndex > numQuotes - 1) {
+      quoteIndex = 0;
+      var script = document.createElement('script');
+      // append time to force browser not to cache response
+      script.src = `${quoteAPI}&callback=getInitialQuote?nocache=${new Date().getTime()}`;
+      document.head.appendChild(script);
+      document.head.removeChild(script); // remove so we don't keep creating script elements
+      elGetQuoteButton.blur(); // removes focus on button after click
+      quoteIndex++;
+    } else { // get next stored quote
+      getNextQuote();
+      quoteIndex++;
+    }
   }
 
   function handleTwitterShare(event) {
@@ -39,22 +52,45 @@
       scrollbars=yes,height=400,width=600');
   }
 
-  /* Called from callback of .getJSON function. Updates quote 
-    and author variables and calls displayQuote function */
-  var getQuote = global.getQuote = function getQuote (response) {
+  /* JSONP callback function. Updates quote and author variables and 
+   * calls displayQuote function 
+   */
+  var getInitialQuote = global.getInitialQuote = function getInitialQuote(response) {
     console.log(response);
 
-    // save the quote and author from response
-    quote = response.quoteText.trim(); // remove extra whitespace from beginning/end
-    author = response.quoteAuthor;
+    data = response;
+    /* save the quote and author from response, credit Tim Down @
+    http://stackoverflow.com/questions/5002111/javascript-how-to-strip-html-tags-from-string
+    */
+    quote = response[0].content;
+    author = response[0].title;
+    // strip HTML tags from quote
+    var parsedQuote = document.createElement('div');
+    parsedQuote.innerHTML = quote;
+    quote = parsedQuote.textContent || parsedQuote.innerText || '';
+    quote = quote.trim(); // remove extra white space
     displayQuote();
     updateTwitter();
     console.log(`Quote: ${quote}`+'\n'+`Author: ${author}`);
   }
 
+  /* Get next stored quote.
+   */
+  function getNextQuote() {
+    quote = data[quoteIndex].content;
+    var parsedQuote = document.createElement('div');
+    parsedQuote.innerHTML = quote;
+    quote = parsedQuote.textContent || parsedQuote.innerText || '';
+    quote = quote.trim();
+    author = data[quoteIndex].title;
+    displayQuote();
+    updateTwitter();
+  }
+
   /* Displays the quote and author on page 
-  credit @icktoofay http://stackoverflow.com/questions/13327521/
-  animation for automatic height change */
+   * credit @icktoofay http://stackoverflow.com/questions/13327521/
+   * animation for automatic height change 
+   */
   function displayQuote() {
     elQuoteHolder = document.getElementById('quote-holder');
     var oldHeight;
