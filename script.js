@@ -5,7 +5,7 @@
   var quoteAPI = `http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=${numQuotes}&_jsonp=getInitialQuote`;
   var twitterAPI = 'https://twitter.com/intent/tweet?text=';
   var data = null;
-  var quoteIndex = 0;
+  var quoteIndex = null;
   var quote = '';
   var author = '';
   var elGetQuoteButton;
@@ -31,7 +31,7 @@
    */
   function handleGetQuote() {
     // call quote API to get a random quote for first time or if all quotes were displayed
-    if (quoteIndex === 0 || quoteIndex > numQuotes - 1) {
+    if (quoteIndex === null || quoteIndex > numQuotes - 1) {
       quoteIndex = 0;
       var script = document.createElement('script');
       // append time to force browser not to cache response
@@ -39,11 +39,10 @@
       document.head.appendChild(script);
       document.head.removeChild(script); // remove so we don't keep creating script elements
       elGetQuoteButton.blur(); // removes focus on button after click
-      quoteIndex++;
     } else { // get next stored quote
       getNextQuote();
-      quoteIndex++;
     }
+    quoteIndex++;
   }
 
   function handleTwitterShare(event) {
