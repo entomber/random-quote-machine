@@ -1,0 +1,146 @@
+html, body, div {
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  font-family: Verdana;
+}
+body {
+  margin-top: 20px;
+}
+#content {
+  min-width: 230px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+#quote-holder {
+  /*height: auto;*/
+  border: 2px solid;
+  padding: 20px;
+  background-color: #7DAFF0;
+  
+  -webkit-transition: height 0.55s ease;
+  -moz-transition: height 0.55s ease;
+  -ms-transition: height 0.55s ease;
+  -o-transition: height 0.55s ease;
+  transition: height 0.55s ease; 
+}
+#quote {
+  width: 100%;
+  text-align: left;
+  font-size: 24px;
+
+  -webkit-transition: opacity 0.55s ease;
+  -moz-transition: opacity 0.55s ease;
+  -ms-transition: opacity 0.55s ease;
+  -o-transition: opacity 0.55s ease;
+  transition: opacity 0.55s ease; 
+}
+#author {
+  padding-top: 20px;
+  width: 100%;
+  text-align: right;
+  font-size: 18px;
+
+  -webkit-transition: opacity 0.55s ease;
+  -moz-transition: opacity 0.55s ease;
+  -ms-transition: opacity 0.55s ease;
+  -o-transition: opacity 0.55s ease;
+  transition: opacity 0.55s ease; 
+}
+.fadeOut {
+  opacity: 0;
+  -moz-animation: fadeout 0.5s ease;
+  -webkit-animation: fadeout 0.5s ease;
+  animation: fadeout 0.5s ease;
+}
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% {opacity: 0; }
+}
+#button-holder {
+  margin-top: 5px;
+  border: none;
+  height: 40px;
+  line-height: 40px;
+}
+/* used so parent of floated buttons doesn't collapse */
+.clearfix:after {
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
+}
+span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  font-size: 12px;
+}
+#byline {
+  margin-left: 5px;
+}
+.button {
+  float: right;
+}
+#get-quote-button {
+  width: 90px;
+  height: 40px;
+  border-radius: 3px;
+  background-color: #7DAFF0;
+  border: 2px solid black;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: all ease 0.5s;
+  -moz-transition: all ease 0.5s;
+  -webkit-transition: all ease 0.5s;
+  -o-transition: all ease 0.5s;
+  -ms-transition: all ease 0.5s;
+}
+#get-quote-button:hover {
+  color: #FFF;
+  text-decoration: none;
+  transition: all ease 0.5s;
+  -moz-transition: all ease 0.5s;
+  -webkit-transition: all ease 0.5s;
+  -o-transition: all ease 0.5s;
+  -ms-transition: all ease 0.5s;
+}
+a {
+  text-decoration: none;
+  color: #628ABD;
+  font-weight: bold;
+
+}
+a i {
+  width: 38px;
+  height: 25px;
+  color: #000;
+  background-color: #7DAFF0;
+  font-size: 27px;
+  text-align: center;
+  padding-top: 11px;
+  border-radius: 3px;
+  border: 2px solid black;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  transition: all ease 0.5s;
+  -moz-transition: all ease 0.5s;
+  -webkit-transition: all ease 0.5s;
+  -o-transition: all ease 0.5s;
+  -ms-transition: all ease 0.5s;
+}
+a i:hover {
+  color: #FFF;
+  text-decoration: none;
+  transition: all ease 0.5s;
+  -moz-transition: all ease 0.5s;
+  -webkit-transition: all ease 0.5s;
+  -o-transition: all ease 0.5s;
+  -ms-transition: all ease 0.5s;
+}
+@media only screen and (max-width: 375px) {
+  #quote { font-size: 18px; }
+  #author { font-size: 12px; padding-top: 10px;}
+  #quote-holder { padding: 10px; }
+}
