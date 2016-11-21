@@ -2,7 +2,7 @@
   'use strict';
 
   const numQuotes = 20; // saves this # of quotes from quotes API
-  var quoteAPI = `http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=${numQuotes}&_jsonp=getInitialQuote`;
+  var quoteAPI = `https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=${numQuotes}&_jsonp=getInitialQuote`;
   var twitterAPI = 'https://twitter.com/intent/tweet?text=';
   var data = null;
   var quoteIndex = null;
